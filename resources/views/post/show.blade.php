@@ -1,22 +1,51 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-11">
-            <div class="card mb-3">
-                <div class="card-header">
-                    <b>{{ $post->title }}</b>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-11">
+                <div class="card">
+                    <div class="card-header">Hobby Detail</div>
+
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <b>{{$post->title}}</b>
+                                <p>{{$post->description}}</p>
+                                <p>{{$post->content}}</p>
+                                @if($post->tags->count() > 0)
+                                    <b>Used Tags:</b> (Click to remove)
+                                    <p>
+                                        @foreach($post->tags as $tag)
+                                            <a href="/post/{{$post->id}}/tag/{{$tag->id}}/remove"><span class="badge badge-{{ $tag->style }}">{{ $tag->name }}</span></a>
+                                        @endforeach
+                                    </p>
+                                @endif
+
+                                @if($tagsAvailable->count() > 0)
+                                    <b>Available Tags:</b> (Click to assign)
+                                    <p>
+                                        @foreach($tagsAvailable as $tag)
+                                            <a href="/post/{{$post->id}}/tag/{{$tag->id}}/assign"><span class="badge badge-{{ $tag->style }}">{{ $tag->name }}</span></a>
+                                        @endforeach
+                                    </p>
+                                @endif
+                            </div>
+                            <div class="col-md-3">
+                                <a href="/img/400x300.jpg" data-lightbox="400x300.jpg" data-title="{{ $post->title }}">
+                                    <img class="img-fluid" src="/img/400x300.jpg" alt="">
+                                </a>
+                                <i class="fa fa-search-plus"></i> Click image to enlarge
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h5>{{ $post->description }}</h5>
-                    <p>{{ $post->content }}</p>
+                <!--
+                <div class="mt-2">
+                    <a class="btn btn-primary btn-sm" href="{{ URL::previous() }}"><i class="fas fa-arrow-circle-up"></i> Back to Overview</a>
                 </div>
+                -->
             </div>
-        <div>
-            <a class="btn btn-primary btn-sm float-left" href="/post"><i class="fas fa-arrow-circle-left"></i> Back to all posts</a>
-        </div>
         </div>
     </div>
-</div>
 @endsection
