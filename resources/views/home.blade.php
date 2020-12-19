@@ -12,11 +12,16 @@
                         <div class="col-md-9">
                             <h2>Hello {{ auth()->user()->name }}</h2>
                             <h5>Your Motto</h5>
-                            <p><p>{{ auth()->user()->job ?? '' }}</p></p>
-                            <p><p>{{ auth()->user()->location ?? '' }}</p></p>
+                            <p>{{ auth()->user()->job ?? '' }}</p>
+                            <p>{{ auth()->user()->location ?? '' }}</p>
+                            <p>
+                                <a class='btn btn-primary' href='user/{{ auth()->user()->id }}/edit'>Edit profile</a>
+                            </p>
                         </div>
                         <div class="col-md-3">
-                            <img class="img-thumbnail" src="/img/300x400.jpg" alt="{{ auth()->user()->name }}">
+                            @if(file_exists('storage/users/' . 'user_' . auth()->user()->id . '_img.jpg'))
+                                <img class='rounded-circle' src='/storage/users/user_{{ auth()->user()->id }}_img.jpg' alt='User profile picture' style='height:125px; width:125px'/>
+                            @endif
                         </div>
                     </div>
 
@@ -28,7 +33,6 @@
                         @foreach($posts as $post)
                             <li class="list-group-item">
                                 <a title="Show Details" href="/post/{{ $post->id }}">
-                                    <img src="/img/thumb_landscape.jpg" alt="thumb"></a>
                                     {{ $post->title }}
                                 </a>
                                 @auth
@@ -52,7 +56,7 @@
                     </ul>
                     @endisset
 
-                    <a class="btn btn-success btn-sm" href="/post/create"><i class="fas fa-plus-circle"></i> Create new Post</a>
+                    <a class="btn btn-success btn-sm mt-2" href="/post/create"><i class="fas fa-plus-circle"></i> Create new Post</a>
                 </div>
             </div>
         </div>

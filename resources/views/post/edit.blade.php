@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Edit Post</div>
                     <div class="card-body">
-                        <form action="/post/{{$post->id}}" method="POST">
+                        <form action="/post/{{$post->id}}" method="POST" enctype='multipart/form-data'>
                         @csrf
                         @method('PATCH')
                             <div class="form-group">
@@ -35,6 +35,18 @@
                                     name="content" 
                                     rows="5" 
                                     >{{ old('content') ?? $post->content }}</textarea>
+                            </div>
+                            @if(file_exists('storage/posts/' . 'post_' . $post->id . '_img.jpg'))
+                                <img src='/storage/posts/post_{{ $post->id }}_img.jpg' alt='Image related to the post' style='height:50px; width:50px'/>
+                                <a class='float-right btn btn-outline-danger' href='/remove-image/post/{{ $post->id }}'>Remove image from post</a>
+                            @endif
+                            <div class="form-group">
+                                <label for="name">Image</label>
+                                <input type="file" 
+                                    class="form-control{{ $errors->has('image') ? ' border-danger' : '' }}" 
+                                    id="image" 
+                                    name="image" 
+                                    value="">                         
                             </div>
                             <input class="btn btn-primary mt-4" type="submit" value="Save Post"> 
                             <a class="btn btn-primary mt-4 float-right" href="/post"><i class="fas fa-arrow-circle-up"></i> Back</a>

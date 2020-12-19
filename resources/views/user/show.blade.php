@@ -34,7 +34,9 @@
                                 @endif
                             </div>
                             <div class="col-md-3">
-                                <img class="img-thumbnail" src="/img/300x400.jpg" alt="{{ $user->name }}">
+                            @if(file_exists('storage/users/' . 'user_' . $post->user->id . '_img.jpg'))
+                                <img class='rounded-circle' src='/storage/users/user_{{ $post->user->id }}_img.jpg' alt='User profile picture' style='height:125px; width:125px'/>
+                            @endif
                             </div>
                         </div>
 

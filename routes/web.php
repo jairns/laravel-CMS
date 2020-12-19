@@ -38,3 +38,8 @@ Route::get('/post/tag/{tag_id}', [App\Http\Controllers\PostTagController::class,
 Route::get('/post/{post_id}/tag/{tag_id}/assign', [App\Http\Controllers\PostTagController::class, 'assignTag']);
 // Remove tag[s] from post[s]
 Route::get('/post/{post_id}/tag/{tag_id}/remove', [App\Http\Controllers\PostTagController::class, 'removeTag']);
+
+// Remove image from post
+Route::get('/remove-image/post/{post_id}', [App\Http\Controllers\PostController::class, 'removeImage']);
+// Remove user profile pic
+Route::get('/remove-image/user/{user_id}', [App\Http\Controllers\UserController::class, 'removeImage']);

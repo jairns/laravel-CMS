@@ -20,14 +20,15 @@
                             @foreach($posts as $post)
                                 <li class="list-group-item">
                                     <a title="Show Details" href="/post/{{ $post->id }}">
-                                        <img src="/img/thumb_landscape.jpg" alt="thumb">
                                         {{ $post->title }}
                                     </a>
                                     @auth
                                     <a class="btn btn-sm btn-light ml-2" href="/post/{{ $post->id }}/edit"><i class="fas fa-edit"></i> Edit Post</a>
                                     @endauth
                                     <span class="mx-2">Posted by: <a href="/user/{{ $post->user->id }}">{{ $post->user->name }} ({{ $post->user->posts->count() }} Posts)</a>
-                                    <a href="/user/{{ $post->user->id }}"><img class="rounded" src="/img/thumb_portrait.jpg"></a>
+                                    @if(file_exists('storage/users/' . 'user_' . $post->user->id . '_img.jpg'))
+                                        <a href="/user/{{ $post->user->id }}"><img class='rounded-circle' src='/storage/users/user_{{ $post->user->id }}_img.jpg' alt='User profile picture' style='height:50px; width:50px'/></a>
+                                    @endif
                                     </span>
                                     @auth
                                     <form class="float-right" style="display: inline" action="/post/{{ $post->id }}" method="post">

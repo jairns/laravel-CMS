@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use App\Models\Post;
 
 class HomeController extends Controller
@@ -34,7 +35,9 @@ class HomeController extends Controller
         ->get();
         // Returning the posts variable to the home view so it can be accessed
         return view('home')->with([
-            'posts' => $posts
+            'posts' => $posts,
+            // Return the successful user details message to the page
+            'message_success' => Session::get('message_success')
         ]);
     }
 }

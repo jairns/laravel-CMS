@@ -11,6 +11,10 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <b>{{$post->title}}</b>
+                                <!-- If the image exists, display it -->
+                                @if(file_exists('storage/posts/' . 'post_' . $post->id . '_img.jpg'))
+                                    <img src='/storage/posts/post_{{ $post->id }}_img.jpg' alt='Image related to the post'/>
+                                @endif
                                 <p>{{$post->description}}</p>
                                 <p>{{$post->content}}</p>
                                 @if($post->tags->count() > 0)
