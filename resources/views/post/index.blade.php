@@ -23,7 +23,9 @@
                                         {{ $post->title }}
                                     </a>
                                     @auth
-                                    <a class="btn btn-sm btn-light ml-2" href="/post/{{ $post->id }}/edit"><i class="fas fa-edit"></i> Edit Post</a>
+                                        @can('update', $post)
+                                            <a class="btn btn-sm btn-light ml-2" href="/post/{{ $post->id }}/edit"><i class="fas fa-edit"></i> Edit Post</a>
+                                        @endcan
                                     @endauth
                                     <span class="mx-2">Posted by: <a href="/user/{{ $post->user->id }}">{{ $post->user->name }} ({{ $post->user->posts->count() }} Posts)</a>
                                     @if(file_exists('storage/users/' . 'user_' . $post->user->id . '_img.jpg'))
@@ -31,11 +33,13 @@
                                     @endif
                                     </span>
                                     @auth
-                                    <form class="float-right" style="display: inline" action="/post/{{ $post->id }}" method="post">
-                                        @csrf
-                                        @method("DELETE")
-                                        <input class="btn btn-sm btn-outline-danger" type="submit" value="Delete">
-                                    </form>
+                                        @can('update', $post)
+                                            <form class="float-right" style="display: inline" action="/post/{{ $post->id }}" method="post">
+                                                @csrf
+                                                @method("DELETE")
+                                                <input class="btn btn-sm btn-outline-danger" type="submit" value="Delete">
+                                            </form>
+                                        @endcan
                                     @endauth
                                     <span class="float-right mx-2">{{ $post->created_at->diffForHumans() }}</span>
                                     <br>

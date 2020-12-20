@@ -15,6 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        // Users that are not logged in cannot access the home routes
         $this->middleware('auth');
     }
 

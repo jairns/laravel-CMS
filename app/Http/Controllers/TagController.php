@@ -4,9 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+
 
 class TagController extends Controller
 {
+
+    public function __construct()
+    {
+        // All methods except index require authorization - i.e a logged in user
+        $this->middleware('auth')->except([
+            'index'
+        ]);
+        
+        // Adding admin middleware as the admin can use all the methods
+        $this->middleware('admin')->except([
+            'index'
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,6 +30,7 @@ class TagController extends Controller
      */
     public function index()
     {
+        // abort_unless(Gate::allows('view', $tag), 403);
         $tags = Tag::all();
         return view('tag.index')->with([
             'tags' => $tags
@@ -27,6 +44,7 @@ class TagController extends Controller
      */
     public function create()
     {
+        // abort_unless(Gate::allows('create', $tag), 403);
         return view('tag.create');
     }
 
@@ -38,6 +56,8 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+
+        // abort_unless(Gate::allows('create', $tag), 403);
         // Inserting validation
         $request->validate([
             'name' => 'required',
@@ -64,6 +84,12 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
+        // Abort unless gate allows, 
+        // pass the update ability from the PostPolicy, 
+        //an instance of the post model,
+        // If not an admin return 403 forbidden code
+        // abort_unless(Gate::allows('update', $tag), 403);
+
         return view('tag.edit')->with([
             'tag' => $tag
         ]);
@@ -78,6 +104,12 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
+        // Abort unless gate allows, 
+        // pass the update ability from the TagPolicy, 
+        //an instance of the tags model,
+        // If not an admin return 403 forbidden code
+        // abort_unless(Gate::allows('update', $tag), 403);
+
         // Inserting validation
         $request->validate([
             'name' => 'required',
@@ -103,6 +135,12 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
+        // Abort unless gate allows, 
+        // pass the delete ability from the TagPolicy, 
+        //an instance of the tag model,
+        // If not an admin return 403 forbidden code
+        // abort_unless(Gate::allows('delete', $tag), 403);
+
         // Storing the current title in a variable names 'oldName'
         $oldName = $tag->name;   
         // Deleting the tag

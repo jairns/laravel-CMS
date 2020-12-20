@@ -41,7 +41,11 @@
                         <li><a class="nav-link{{Request::is('/') ? ' active' : ''}}" href='/'>Blog</a></li>
                         <li><a class="nav-link{{Request::is('about') ? ' active' : ''}}" href='/about'>About</a></li>
                         <li><a class="nav-link{{Request::is('post') ? ' active' : ''}}" href='/post'>Posts</a></li>
-                        <li><a class="nav-link{{Request::is('tag') ? ' active' : ''}}" href='/tag'>Tags</a></li>
+                        @auth
+                            @if(Auth::user()->role === 'admin')
+                                <li><a class="nav-link{{Request::is('tag') ? ' active' : ''}}" href='/tag'>Tags</a></li>
+                            @endif
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->

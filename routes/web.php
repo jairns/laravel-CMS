@@ -25,7 +25,8 @@ Route::get('/about', function () {
 
 // Route::get('/test/{title}/{description}', 'App\Http\Controllers\PostController@index');
 Route::resource('post', 'App\Http\Controllers\PostController');
-Route::resource('tag', 'App\Http\Controllers\TagController');
+// Applied admin middleware to the tag route, therefore, only admins can utilise the functionality
+Route::resource('tag', 'App\Http\Controllers\TagController')->middleware('admin');
 Route::resource('user', 'App\Http\Controllers\UserController');
 
 
@@ -34,10 +35,10 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/post/tag/{tag_id}', [App\Http\Controllers\PostTagController::class, 'getFilterPosts'])->name('post_tag');
 
-// Add tag[s] to post[s]
-Route::get('/post/{post_id}/tag/{tag_id}/assign', [App\Http\Controllers\PostTagController::class, 'assignTag']);
-// Remove tag[s] from post[s]
-Route::get('/post/{post_id}/tag/{tag_id}/remove', [App\Http\Controllers\PostTagController::class, 'removeTag']);
+// Remove tag[s] from post[s] and applying middleware so only an authorized user can assign tags
+Route::get('/post/{post_id}/tag/{tag_id}/assign', [App\Http\Controllers\PostTagController::class, 'assignTag'])->middleware('auth');
+// Remove tag[s] from post[s] and applying middleware so only an authorized user can remove tags
+Route::get('/post/{post_id}/tag/{tag_id}/remove', [App\Http\Controllers\PostTagController::class, 'removeTag'])->middleware('auth');;
 
 // Remove image from post
 Route::get('/remove-image/post/{post_id}', [App\Http\Controllers\PostController::class, 'removeImage']);

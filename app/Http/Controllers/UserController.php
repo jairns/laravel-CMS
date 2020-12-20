@@ -5,9 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+	{
+	    // All methods except show require authorization - i.e a logged in user
+	    $this->middleware('auth')->except([
+	        'show'
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -60,6 +70,12 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        // Abort unless gate allows, 
+        // pass the update ability from the PostPolicy, 
+        //an instance of the post model,
+        // If not an admin return 403 forbidden code
+        abort_unless(Gate::allows('update', $user), 403);
+
         // Returning success message to the view
         return view('user.edit')->with([
             'user' => $user,
@@ -76,6 +92,12 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // Abort unless gate allows, 
+        // pass the update ability from the UserPolicy, 
+        //an instance of the user model,
+        // If not an admin return 403 forbidden code
+        abort_unless(Gate::allows('update', $user), 403);
+
         // Inserting validation
         $request->validate([
             'job' => 'required',
@@ -118,7 +140,11 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        // Abort unless gate allows, 
+        // pass the delete ability from the UserPolicy, 
+        //an instance of the user model,
+        // If not an admin return 403 forbidden code
+        abort_unless(Gate::allows('delete', $user), 403);
     }
 
     public function removeImage($user_id)

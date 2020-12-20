@@ -6,10 +6,11 @@ use App\Models\Post;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-// use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -17,9 +18,13 @@ class PostController extends Controller
      */
 
     public function __construct()
-    {
-        $this->middleware('auth')->except(['index', 'show']);
-    }
+	{
+	    // All methods except index and show require authorization - i.e a logged in user
+	    $this->middleware('auth')->except([
+            'index', 
+            'show'
+            ]);
+	}
 
     public function index()
     {
@@ -119,6 +124,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        // Abort unless gate allows, 
+        // pass the update ability from the PostPolicy, 
+        //an instance of the post model,
+        // If not an admin return 403 forbidden code
+        abort_unless(Gate::allows('update', $post), 403);
         return view('post.edit')->with([
             'post' => $post,
             'message_success' => Session::get('message_success'),
@@ -134,6 +144,12 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // Abort unless gate allows, 
+        // pass the update ability from the PostPolicy, 
+        //an instance of the post model,
+        // If not an admin return 403 forbidden code
+        abort_unless(Gate::allows('update', $post), 403);
+
         // Inserting validation
         $request->validate([
             'title' => 'required|min:3',
@@ -176,8 +192,15 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
+
+
     public function destroy(Post $post)
     {
+        // Abort unless gate allows, 
+        // pass the delete ability from the PostPolicy, 
+        //an instance of the post model,
+        // If not an admin return 403 forbidden code
+        abort_unless(Gate::allows('delete', $post), 403);
         // Storing the current title in a variable names 'oldTitle'
         $oldTitle = $post->title;   
         // Deleting the post

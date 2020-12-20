@@ -11,7 +11,6 @@
                     <div class="row">
                         <div class="col-md-9">
                             <h2>Hello {{ auth()->user()->name }}</h2>
-                            <h5>Your Motto</h5>
                             <p>{{ auth()->user()->job ?? '' }}</p>
                             <p>{{ auth()->user()->location ?? '' }}</p>
                             <p>
