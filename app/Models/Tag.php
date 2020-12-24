@@ -9,6 +9,7 @@ class Tag extends Model
 {
     use HasFactory;
 
+    // A tag can belong to many posts
     public function posts() {
         return $this->belongsToMany('App\Models\Post');
     }

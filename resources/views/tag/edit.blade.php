@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                <h3>Edit Tag</h3>
                 <div class="card">
-                    <div class="card-header">Edit Tag</div>
                     <div class="card-body">
                         <form action="/tag/{{$tag->id}}" method="POST">
                         @csrf
@@ -28,7 +28,7 @@
                                     value="{{old('style') ?? $tag->style}}">
                             </div>
                             <input class="btn btn-primary mt-4" type="submit" value="Save Tag"> 
-                            <a class="btn btn-primary mt-4 float-right" href="/tag"><i class="fas fa-arrow-circle-up"></i> Back</a>
+                            <a class="btn btn-primary mt-4 float-right" href="/tag"><i class="fas fa-arrow-circle-left"></i> Back</a>
                         </form>
                     </div>
                 </div>

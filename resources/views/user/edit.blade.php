@@ -28,7 +28,7 @@
                             </div>
                             @if(file_exists('storage/users/' . 'user_' . $user->id . '_img.jpg'))
                                 <img src='/storage/users/user_{{ $user->id }}_img.jpg' alt='User profile picture' style='height:50px; width:50px'/>
-                                <a class='float-right btn btn-outline-danger' href='/remove-image/user/{{ $user->id }}'>Remove profile picture</a>
+                                <a class='float-right btn btn-sm btn-outline-danger' href='/remove-image/user/{{ $user->id }}'>Remove profile picture</a>
                             @endif
                             <div class="form-group">
                                 <label for="name">Profile picture</label>
@@ -39,7 +39,7 @@
                                     value="">                         
                             </div>
                             <input class="btn btn-primary mt-4" type="submit" value="Save Profile"> 
-                            <a class="btn btn-primary mt-4 float-right" href="/home"><i class="fas fa-arrow-circle-up"></i> Back</a>
+                            <a class="btn btn-primary mt-4 float-right" href="/home"><i class="fas fa-arrow-circle-left"></i> Back</a>
                         </form>
                     </div>
                 </div>

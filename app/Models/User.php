@@ -10,8 +10,15 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    // A user can have many posts
     public function posts () {
         return $this->hasMany('App\Models\Post');
+    }
+
+    // A user can create multiple comments
+    public function comments () {
+        return $this->hasMany('App\Models\Comment');
     }
 
     /**

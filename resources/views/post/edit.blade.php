@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+                <h3 class='mb-3'>Edit Post</h3>
                 <div class="card">
-                    <div class="card-header">Edit Post</div>
                     <div class="card-body">
                         <form action="/post/{{$post->id}}" method="POST" enctype='multipart/form-data'>
                         @csrf
@@ -49,7 +49,7 @@
                                     value="">                         
                             </div>
                             <input class="btn btn-primary mt-4" type="submit" value="Save Post"> 
-                            <a class="btn btn-primary mt-4 float-right" href="/post"><i class="fas fa-arrow-circle-up"></i> Back</a>
+                            <a class="btn btn-primary mt-4 float-right" href="/post"><i class="fas fa-arrow-circle-left"></i> Back</a>
                         </form>
                     </div>
                 </div>

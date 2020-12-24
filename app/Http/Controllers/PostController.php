@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Gate;
@@ -28,13 +29,34 @@ class PostController extends Controller
 
     public function index()
     {
-        // $posts = Post::all();
-        // $posts = post::paginate(5); // Generate 5 posts per page
-        // Order by and pagination
-        $posts = post::orderBy('created_at', 'DESC')->paginate(5);
-        return view('post.index')->with([
-            'posts' => $posts
-        ]);
+        //if a user submits a value within the search field store it within the search varaible
+        $search = request()->query('search');
+
+        // if $search exists
+        if($search) {
+            // Find posts which match the user input and store it within a variable
+            $posts = post::where('title', 'LIKE', '%' . $search . '%')
+            // Order by date of creation
+            ->orderBy('created_at', 'DESC')
+            // Paginate five per page
+            ->paginate(5);
+        } else {
+            // Get all posts, order by date and assign five per page
+            $posts = post::orderBy('created_at', 'DESC')->paginate(5);
+        }
+        // If no posts match the users search
+        if($posts->count() === 0) {
+            return view('post.index')->with([
+                'posts' => $posts,
+                // Return warning message
+                'message_warning' => "No results found. Please search again or <a href='/post'>view all posts</a>"
+            ]);
+        } else {
+            // If the user has not searched or their search has found results - display posts
+            return view('post.index')->with([
+                'posts' => $posts,
+            ]);
+        }
     }
 
     /**
@@ -108,10 +130,13 @@ class PostController extends Controller
         $postsTags = $post->tags;
         // Using the diff method to find tags which arent currently applied
         $tagsAvailable = $tags->diff($postsTags);
+        // Retreiving all comments
+        $comments = Comment::all();
         // Returning to the front end
         return view('post.show')->with([
             'post' => $post,
             'tagsAvailable' => $tagsAvailable,
+            'comments' => $comments,
             'message_success' => Session::get('message_success'),
         ]);
     }
@@ -223,5 +248,41 @@ class PostController extends Controller
             'message_success' => 'The image has been removed.'
         ]);
     }
+
+    // public function comment(Request $request, $post_id)
+    // {
+    //     // Inserting validation
+    //     $request->validate([
+    //         // To submit the form, a value is required
+    //         'comment' => 'required',
+    //     ]);
+    //     // New commnet instace
+    //     $comment = new Comment;
+    //     // Get the user_id 
+    //     $comment->user_id = auth()->id();
+    //     // Get the post_id
+    //     $comment->post_id = $post_id;
+    //     // Get the value of the comment
+    //     $comment->comment = $request->input('comment');
+    //     // Save the comment 
+    //     $comment->save();
+    //     // Redirect user to specific post page after creation
+    //     return redirect('/post/' . $post_id)->with([
+    //         'message_success' => 'Comment added!',
+    //     ]);
+    // }
+
+    // public function removeComment($id)
+    // {
+    //     // Find the id of the comment which is to be deleted
+    //     $comment = Comment::findOrFail($id);
+    //     // Delete the comment
+    //     $comment->delete();
+
+    //     // Return success message back to the view
+    //     return back()->with([
+    //         'message_success' => 'Comment was removed!'
+    //     ]);
+    // }
 
 }

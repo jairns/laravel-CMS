@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
+            <h3>Create Post</h3>
                 <div class="card">
-                    <div class="card-header">Create New Post</div>
                     <div class="card-body">
                         <form action="/post" method="POST" enctype='multipart/form-data'>
                         @csrf
@@ -50,8 +50,7 @@
                             </div>
                         
                             <button type='submit' class='btn btn-primary mt-4'>Save Post</button>
-                            <!-- <input class="btn btn-primary mt-4" href='/tests' type="submit" value="Save Post">  -->
-                            <a class="btn btn-primary mt-4 float-right" href="/post"><i class="fas fa-arrow-circle-up"></i> Back</a>
+                            <a class="btn btn-primary mt-4 float-right" href="/post"><i class="fas fa-arrow-circle-left"></i> Back</a>
                         </form>
                     </div>
                 </div>

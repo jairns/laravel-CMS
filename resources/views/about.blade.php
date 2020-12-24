@@ -3,15 +3,14 @@
 @section('page_description')
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">About</div>
-
-                <div class="card-body">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolore saepe optio molestiae, repellendus similique sit provident a dolores facere, vel consequuntur facilis nisi sunt, unde dignissimos eius accusantium explicabo odit.
-                </div>
-            </div>
+    <div class="jumbotron">
+        <h1 class="display-3">Hello and Welcome!</h1>
+        <p class="lead">Dev Blog is a blogging platform where users can read and create blogs related to web development and software engineering.</p>
+        <hr class="my-4">
+        <p>click the button below to view our post's!</p>
+        <p class="lead">
+            <a class="btn btn-primary" href="/post" role="button">View posts</a>
+        </p>
         </div>
     </div>
 </div>
